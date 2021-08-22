@@ -1,21 +1,18 @@
 //
-//  ViewController.swift
+//  WeatherViewController.swift
 //  WeatherAPISampleApp
 //
-//  Created by 前澤健一 on 2021/08/22.
+//  Created by 前澤健一 on 2021/08/23.
 //
 
 import RxSwift
 import RxCocoa
 import RxDataSources
 import APIKit
-import SwiftyJSON
 
-
-class ViewController: UIViewController {
-
+class WeatherViewController: UIViewController {
     // MARK: - Properties
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet private weak var searchBar: UISearchBar!
     
     private let disposeBag = DisposeBag()
 
@@ -35,9 +32,17 @@ class ViewController: UIViewController {
         searchBar.rx.searchButtonClicked.asObservable()
             .withLatestFrom(searchBarTextObservable)
             .subscribe(onNext: { text in
+                let request = WeatherAPI.FetchWeatherRequest(queryKeyword: text)
+                Session.shared.send(request) { result in
+                    switch result {
+                    case .success(let response):
+                        print("get data!")
+                        print(response)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
             })
             .disposed(by: disposeBag)
     }
-
 }
-

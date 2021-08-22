@@ -22,10 +22,28 @@ extension WeatherRequest where Response: Decodable {
         print(json)
         let decoder = JSONDecoder()
         do {
+            
             let data = try json.rawData()
             return try decoder.decode(Response.self, from: data)
         } catch {
             throw error
         }
+    }
+    
+    func intercept(object: Any, urlResponse: HTTPURLResponse) throws -> Any {
+        let statusCode = urlResponse.statusCode
+        if case (400 ..< 500) = statusCode {
+            let json = JSON(object)
+            print(json)
+            let decoder = JSONDecoder()
+            do {
+                let data = try json.rawData()
+                // JSONからエラーをインスタンス化
+                throw try decoder.decode(WeatherAPIError.self, from: data)
+            } catch {
+                throw error
+            }
+        }
+        return object
     }
 }
