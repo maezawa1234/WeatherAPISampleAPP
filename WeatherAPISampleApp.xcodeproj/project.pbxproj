@@ -73,16 +73,10 @@
 		081396B226D29BE800CDF8D2 /* WeatherAPISampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				0820E16726D29F88002C69AC /* DataModel */,
-				0820E16226D29D9B002C69AC /* API */,
-				0820E17226D2B386002C69AC /* Services */,
-				0820E17326D2B3AF002C69AC /* Extensions+Protocols */,
-				081396B326D29BE800CDF8D2 /* AppDelegate.swift */,
-				081396B526D29BE800CDF8D2 /* SceneDelegate.swift */,
-				081396B726D29BE800CDF8D2 /* ViewController.swift */,
+				0820E17626D2B5E6002C69AC /* Sources */,
 				081396B926D29BE800CDF8D2 /* Main.storyboard */,
-				081396BC26D29BEA00CDF8D2 /* Assets.xcassets */,
 				081396BE26D29BEA00CDF8D2 /* LaunchScreen.storyboard */,
+				081396BC26D29BEA00CDF8D2 /* Assets.xcassets */,
 				081396C126D29BEA00CDF8D2 /* Info.plist */,
 			);
 			path = WeatherAPISampleApp;
@@ -119,6 +113,28 @@
 				0820E17426D2B3FC002C69AC /* Session+Rx.swift */,
 			);
 			path = "Extensions+Protocols";
+			sourceTree = "<group>";
+		};
+		0820E17626D2B5E6002C69AC /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				0820E16726D29F88002C69AC /* DataModel */,
+				0820E16226D29D9B002C69AC /* API */,
+				0820E17226D2B386002C69AC /* Services */,
+				0820E17326D2B3AF002C69AC /* Extensions+Protocols */,
+				0820E17826D2B693002C69AC /* Views */,
+				081396B326D29BE800CDF8D2 /* AppDelegate.swift */,
+				081396B526D29BE800CDF8D2 /* SceneDelegate.swift */,
+				081396B726D29BE800CDF8D2 /* ViewController.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		0820E17826D2B693002C69AC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		15E4EDF236C495EC5CD90420 /* Pods */ = {
