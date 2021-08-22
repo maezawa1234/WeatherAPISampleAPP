@@ -11,19 +11,28 @@ import RxDataSources
 import APIKit
 
 class WeatherViewController: UIViewController {
+    
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
-    
+    @IBOutlet private weak var tableView: UITableView!
+
+    private let viewModel = WeatherViewModel()
     private let disposeBag = DisposeBag()
+
+    static func configure() -> Self {
+        let viewController = UIStoryboard(name: Self.className, bundle: nil)
+            .instantiateViewController(identifier: Self.className) as! Self
+        return viewController
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         bind()
     }
-    
+  
     private func setupView() {
-        
+        self.navigationItem.title = "Weather Sample App"
     }
     
     private func bind() {

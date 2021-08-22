@@ -20,17 +20,26 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9tJ-Va-kxc">
+                                <rect key="frame" x="0.0" y="95" width="414" height="767"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XdB-LQ-orb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="4w6-sk-nsB"/>
                             <constraint firstItem="XdB-LQ-orb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Grg-Ka-rpf"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9tJ-Va-kxc" secondAttribute="trailing" id="Ifx-fq-lIE"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9tJ-Va-kxc" secondAttribute="bottom" id="NPJ-e0-f54"/>
                             <constraint firstItem="XdB-LQ-orb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="azQ-05-t8z"/>
+                            <constraint firstItem="9tJ-Va-kxc" firstAttribute="top" secondItem="XdB-LQ-orb" secondAttribute="bottom" id="hED-V6-oJF"/>
+                            <constraint firstItem="9tJ-Va-kxc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="orB-Bm-57z"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="searchBar" destination="XdB-LQ-orb" id="PEK-uV-83D"/>
+                        <outlet property="tableView" destination="9tJ-Va-kxc" id="Z8w-PY-LLk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
