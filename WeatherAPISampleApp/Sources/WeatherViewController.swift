@@ -33,24 +33,32 @@ class WeatherViewController: UIViewController {
   
     private func setupView() {
         self.navigationItem.title = "Weather Sample App"
+        tableView.register(UINib(nibName: WeatherSummaryCell.className, bundle: nil), forCellReuseIdentifier: WeatherSummaryCell.className)
+        tableView.register(UINib(nibName: WeatherWeeklyCell.className, bundle: nil), forCellReuseIdentifier: WeatherWeeklyCell.className)
     }
     
     private func bind() {
-        let searchBarTextObservable = searchBar.rx.text.orEmpty.asObservable()
+        searchBar.rx.text.asObservable()
+            .bind(to: viewModel.searchBarText)
+            .disposed(by: disposeBag)
         
         searchBar.rx.searchButtonClicked.asObservable()
-            .withLatestFrom(searchBarTextObservable)
-            .subscribe(onNext: { text in
-                let request = WeatherAPI.FetchWeatherRequest(queryKeyword: text)
-                Session.shared.send(request) { result in
-                    switch result {
-                    case .success(let response):
-                        print("get data!")
-                        print(response)
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
+            .bind(to: viewModel.searchButtonClicked)
+            .disposed(by: disposeBag)
+        
+        viewModel.weatherResponse
+            .drive(tableView.rx.items) { tableView, row, element in
+                let cell = tableView.dequeueReusableCell(withIdentifier: WeatherSummaryCell.className, for: [0, row]) as! WeatherSummaryCell
+                cell.configure(with: element)
+                return cell
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.showErrorAlert
+            .drive(onNext: { [weak self] message in
+                let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alertController, animated: true)
             })
             .disposed(by: disposeBag)
     }

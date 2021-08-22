@@ -8,6 +8,7 @@
 import Foundation
 
 struct WeatherResponse: Decodable {
+    let name: String
     let weather: [Weather]
     let main: Main
     let wind: Wind

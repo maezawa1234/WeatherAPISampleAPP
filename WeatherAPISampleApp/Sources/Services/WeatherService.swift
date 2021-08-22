@@ -9,8 +9,8 @@ import RxSwift
 import APIKit
 
 class WeatherService {
-    func getWeather(query: String) -> Single<WeatherResponse> {
-        let request = WeatherAPI.FetchWeatherRequest(queryKeyword: query)
+    func getWeather(query: String) -> Observable<WeatherResponse> {
+        let request = WeatherAPI.FetchWeatherRequest(query: query)
         return Session.shared.rx.send(request: request)
     }
 }

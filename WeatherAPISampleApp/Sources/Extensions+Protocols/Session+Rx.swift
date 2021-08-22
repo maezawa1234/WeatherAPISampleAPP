@@ -11,14 +11,15 @@ import APIKit
 extension Session: ReactiveCompatible {}
 
 extension RxSwift.Reactive where Base: Session {
-    func send<T: Request>(request: T) -> Single<T.Response> {
-        return Single<T.Response>.create { [weak base] observer in
+    func send<T: Request>(request: T) -> Observable<T.Response> {
+        return Observable<T.Response>.create { [weak base] observer in
             let task = base?.send(request) { result in
                 switch result {
                 case .success(let response):
-                    observer(.success(response))
+                    observer.onNext(response)
+                    observer.onCompleted()
                 case .failure(let error):
-                    observer(.error(error))
+                    observer.onError(error)
                 }
             }
             return Disposables.create { task?.cancel() }
