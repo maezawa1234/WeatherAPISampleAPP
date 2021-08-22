@@ -14,13 +14,30 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
 
+    // MARK: - Properties
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    private let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        print("Hi Fist viewcontroler")
+        setupView()
+        bind()
     }
-
+    
+    private func setupView() {
+        
+    }
+    
+    private func bind() {
+        let searchBarTextObservable = searchBar.rx.text.orEmpty.asObservable()
+        
+        searchBar.rx.searchButtonClicked.asObservable()
+            .withLatestFrom(searchBarTextObservable)
+            .subscribe(onNext: { text in
+            })
+            .disposed(by: disposeBag)
+    }
 
 }
 
