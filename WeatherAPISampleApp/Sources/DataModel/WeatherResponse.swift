@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherResponse: Decodable {
+struct CurrentWeatherResponse: Decodable {
     let name: String
     let weather: [Weather]
     let main: Main
@@ -16,8 +16,24 @@ struct WeatherResponse: Decodable {
 
 struct Weather: Decodable {
     let id: Int
-    let main: String
+    let main: MainWeather
     let description: String
+}
+
+enum MainWeather: String, Decodable {
+    case clear = "Clear"
+    case clouds = "Clouds"
+    case rain = "Rain"
+}
+
+extension MainWeather: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .clear: return "☀"
+        case .clouds: return "☁"
+        case .rain: return "☂"
+        }
+    }
 }
 
 struct Main: Decodable {
@@ -42,4 +58,41 @@ struct Wind: Decodable {
     let speed: Float
     let deg: Int
     let gust: Float?
+}
+
+struct WeeklyResponse: Decodable {
+    let city: City
+    let list: [WeeklyListItem]
+}
+
+struct City: Decodable {
+    let id: Int
+    let name: String
+    let coord: Coord
+}
+
+struct Coord: Decodable {
+    let lon: Float
+    let lat: Float
+}
+
+struct WeeklyListItem: Decodable {
+    let temp: Temp
+    let weather: [Weather]
+}
+
+struct Temp: Decodable {
+    let day: Float
+    let min: Float
+}
+
+struct ForecastWeatherResponse: Decodable {
+    let list: [ForecastListObject]
+    let city: City
+}
+
+struct ForecastListObject: Decodable {
+    let dt: Int
+    let main: Main
+    let weather: [Weather]
 }

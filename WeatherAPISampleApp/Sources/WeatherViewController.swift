@@ -48,9 +48,16 @@ class WeatherViewController: UIViewController {
         
         viewModel.weatherResponse
             .drive(tableView.rx.items) { tableView, row, element in
-                let cell = tableView.dequeueReusableCell(withIdentifier: WeatherSummaryCell.className, for: [0, row]) as! WeatherSummaryCell
-                cell.configure(with: element)
-                return cell
+                switch element {
+                case .current(let current):
+                    let cell = tableView.dequeueReusableCell(withIdentifier: WeatherSummaryCell.className, for: [0, row]) as! WeatherSummaryCell
+                    cell.configure(with: current)
+                    return cell
+                case .forecast(let forecast):
+                    let cell = tableView.dequeueReusableCell(withIdentifier: WeatherWeeklyCell.className, for: [0, row]) as! WeatherWeeklyCell
+                    cell.configure(with: forecast)
+                    return cell
+                }
             }
             .disposed(by: disposeBag)
         

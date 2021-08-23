@@ -8,21 +8,21 @@
 import APIKit
 import SwiftyJSON
 
-protocol WeatherRequest: Request {}
+protocol WeatherRequestType: Request {}
 
-extension WeatherRequest {
+extension WeatherRequestType {
     var baseURL: URL {
         return URL(string: "https://api.openweathermap.org/data/2.5")!
     }
 }
 
-extension WeatherRequest where Response: Decodable {
+extension WeatherRequestType where Response: Decodable {
     func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
         let json = JSON(object)
+        print("🚀🚀 Debug: json")
         print(json)
         let decoder = JSONDecoder()
         do {
-            
             let data = try json.rawData()
             return try decoder.decode(Response.self, from: data)
         } catch {
@@ -34,7 +34,6 @@ extension WeatherRequest where Response: Decodable {
         let statusCode = urlResponse.statusCode
         if case (400 ..< 500) = statusCode {
             let json = JSON(object)
-            print(json)
             let decoder = JSONDecoder()
             do {
                 let data = try json.rawData()

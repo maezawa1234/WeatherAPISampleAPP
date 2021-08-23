@@ -15,22 +15,29 @@ class WeatherViewModel {
     let searchBarText = PublishRelay<String?>()
     
     // MARK: - Outputs
-    let weatherResponse: Driver<[WeatherResponse]>
+    let weatherResponse: Driver<[ListItem]>
     let showErrorAlert: Driver<String>
     
     private let disposeBag = DisposeBag()
     
     init(weatherService: WeatherService = WeatherService()) {
+        
+        // サーチボタンのタップでイベント発行される
         let apiResponse = self.searchButtonClicked
             .withLatestFrom(searchBarText.compactMap { $0 })
-            .flatMapLatest { text in
-                return weatherService.getWeather(query: text).materialize()
+            .flatMapLatest { text -> Observable<Event<(CurrentWeatherResponse, ForecastWeatherResponse)>> in
+                let current = weatherService.getCurrentWeather(query: text)
+                let forecast = weatherService.getForecastFeather(query: text)
+                return Observable.zip(current, forecast).materialize()
             }
+            .share(replay: 1)
         
-        let weatherSequence = apiResponse
+        // APIレスポンス
+        let sequence = apiResponse
             .compactMap { $0.element }
             .asDriver(onErrorDriveWith: .empty())
         
+        // APIエラー
         let errorSequence = apiResponse
             .compactMap { $0.error }
             .map { error -> String in
@@ -40,7 +47,19 @@ class WeatherViewModel {
                 return error.localizedDescription
             }
         
-        self.weatherResponse = weatherSequence.map { [$0] }
+        // TableViewItems
+        self.weatherResponse = sequence
+            .map { current, forecast in
+                return [.current(current)] + forecast.list.map { ListItem.forecast($0)}
+            }
+        
+        // エラーアラート表示
         self.showErrorAlert = errorSequence.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    // TableViewItem (２種類のCellデータ)
+    enum ListItem {
+        case current(CurrentWeatherResponse)
+        case forecast(ForecastListObject)
     }
 }

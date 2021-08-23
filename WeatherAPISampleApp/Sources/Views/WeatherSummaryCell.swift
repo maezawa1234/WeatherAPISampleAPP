@@ -14,20 +14,10 @@ class WeatherSummaryCell: UITableViewCell {
     @IBOutlet private weak var tempMaxLabel: UILabel!
     @IBOutlet private weak var tempMinLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    func configure(with currentWeather: CurrentWeatherResponse) {
+        self.nameLabel.text = currentWeather.name
+        self.tempLabel.text = String(currentWeather.main.temp)
+        self.tempMaxLabel.text = String(currentWeather.main.tempMax)
+        self.tempMinLabel.text = String(currentWeather.main.tempMin)
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    func configure(with weatherResponse: WeatherResponse) {
-        self.nameLabel.text = weatherResponse.name
-        self.tempLabel.text = String(weatherResponse.main.temp)
-    }
-
 }
