@@ -16,9 +16,7 @@ class WeatherWeeklyCell: UITableViewCell {
     
     func configure(with forecast: ForecastListObject) {
         let date = Date(timeIntervalSince1970: TimeInterval(forecast.dt))
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd HH:mm"
-        self.dateLabel.text = formatter.string(from: date)
+        self.dateLabel.text = date.toString(format: "MM-dd HH:mm")
         self.weatherLabel.text = forecast.weather[0].main.description
         self.tempLabel.text = String(forecast.main.temp)
     }

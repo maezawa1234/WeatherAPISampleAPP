@@ -16,14 +16,21 @@ class WeatherViewModel {
     
     // MARK: - Outputs
     let weatherResponse: Driver<[ListItem]>
+    let loadingIndicator: Driver<Bool>
     let showErrorAlert: Driver<String>
     
     private let disposeBag = DisposeBag()
     
     init(weatherService: WeatherService = WeatherService()) {
         
+        let _indicator = BehaviorRelay<Bool>(value: false)
+        self.loadingIndicator = _indicator.asDriver(onErrorDriveWith: .empty())
+        
         // サーチボタンのタップでイベント発行される
         let apiResponse = self.searchButtonClicked
+            .do(onNext: {
+                _indicator.accept(true)
+            })
             .withLatestFrom(searchBarText.compactMap { $0 })
             .flatMapLatest { text -> Observable<Event<(CurrentWeatherResponse, ForecastWeatherResponse)>> in
                 let current = weatherService.getCurrentWeather(query: text)
@@ -31,6 +38,12 @@ class WeatherViewModel {
                 return Observable.zip(current, forecast).materialize()
             }
             .share(replay: 1)
+        
+        apiResponse
+            .subscribe(onNext: { _ in
+                _indicator.accept(false)
+            })
+            .disposed(by: disposeBag)
         
         // APIレスポンス
         let sequence = apiResponse

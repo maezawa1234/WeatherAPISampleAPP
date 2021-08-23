@@ -14,6 +14,12 @@ class WeatherViewController: UIViewController {
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var indicator: UIActivityIndicatorView! {
+        didSet {
+            indicator.hidesWhenStopped = true
+            indicator.stopAnimating()
+        }
+    }
 
     private let viewModel = WeatherViewModel()
     private let disposeBag = DisposeBag()
@@ -37,6 +43,7 @@ class WeatherViewController: UIViewController {
         tableView.register(UINib(nibName: WeatherWeeklyCell.className, bundle: nil), forCellReuseIdentifier: WeatherWeeklyCell.className)
     }
     
+    // ViewModelとデータバインド
     private func bind() {
         searchBar.rx.text.asObservable()
             .bind(to: viewModel.searchBarText)
@@ -59,6 +66,22 @@ class WeatherViewController: UIViewController {
                     return cell
                 }
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.loadingIndicator
+            .drive(onNext: { [weak self] isLoading in
+                if isLoading {
+                    UIView.animate(withDuration: 0.3) {
+                        self?.indicator.startAnimating()
+                        self?.tableView.alpha = 0.5
+                    }
+                } else {
+                    UIView.animate(withDuration: 0.3) {
+                        self?.indicator.stopAnimating()
+                        self?.tableView.alpha = 1
+                    }
+                }
+            })
             .disposed(by: disposeBag)
         
         viewModel.showErrorAlert

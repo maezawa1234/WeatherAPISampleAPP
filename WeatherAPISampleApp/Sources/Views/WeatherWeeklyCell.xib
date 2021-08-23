@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="temp:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZH-MB-Bag">
-                        <rect key="frame" x="286.5" y="34.5" width="44" height="21"/>
+                        <rect key="frame" x="261" y="34.5" width="44" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                     <constraint firstItem="UCM-fy-BML" firstAttribute="leading" secondItem="LzB-OJ-TSc" secondAttribute="leading" constant="130" id="WuD-37-fgf"/>
                     <constraint firstItem="X6b-fs-Sqi" firstAttribute="centerY" secondItem="LzB-OJ-TSc" secondAttribute="centerY" id="Xey-BK-sTL"/>
                     <constraint firstItem="dVK-TV-z0s" firstAttribute="leading" secondItem="LzB-OJ-TSc" secondAttribute="leading" constant="20" id="fwH-2M-tjg"/>
-                    <constraint firstItem="X6b-fs-Sqi" firstAttribute="leading" secondItem="gZH-MB-Bag" secondAttribute="trailing" constant="4" id="lJC-A9-kcV"/>
+                    <constraint firstAttribute="trailing" secondItem="gZH-MB-Bag" secondAttribute="trailing" constant="70" id="hgq-85-Kw6"/>
                     <constraint firstAttribute="trailing" secondItem="X6b-fs-Sqi" secondAttribute="trailing" constant="20" id="nUs-My-CoC"/>
                     <constraint firstItem="UCM-fy-BML" firstAttribute="centerY" secondItem="LzB-OJ-TSc" secondAttribute="centerY" id="rJv-Zz-vzv"/>
                     <constraint firstItem="gZH-MB-Bag" firstAttribute="centerY" secondItem="LzB-OJ-TSc" secondAttribute="centerY" id="rQu-5H-dc9"/>
