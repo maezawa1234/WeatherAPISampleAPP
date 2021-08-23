@@ -8,7 +8,6 @@
 import RxSwift
 import RxCocoa
 import RxDataSources
-import APIKit
 
 class WeatherViewController: UIViewController {
     
@@ -19,6 +18,7 @@ class WeatherViewController: UIViewController {
     private let viewModel = WeatherViewModel()
     private let disposeBag = DisposeBag()
 
+    // インスタンス化
     static func configure() -> Self {
         let viewController = UIStoryboard(name: Self.className, bundle: nil)
             .instantiateViewController(identifier: Self.className) as! Self
@@ -41,7 +41,7 @@ class WeatherViewController: UIViewController {
         searchBar.rx.text.asObservable()
             .bind(to: viewModel.searchBarText)
             .disposed(by: disposeBag)
-        
+
         searchBar.rx.searchButtonClicked.asObservable()
             .bind(to: viewModel.searchButtonClicked)
             .disposed(by: disposeBag)
@@ -63,10 +63,14 @@ class WeatherViewController: UIViewController {
         
         viewModel.showErrorAlert
             .drive(onNext: { [weak self] message in
-                let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                self?.present(alertController, animated: true)
+                self?.showAlertController(message)
             })
             .disposed(by: disposeBag)
+    }
+
+    private func showAlertController(_ message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alertController, animated: true)
     }
 }
