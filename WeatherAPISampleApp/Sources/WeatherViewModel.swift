@@ -11,20 +11,27 @@ import RxCocoa
 class WeatherViewModel {
     
     // MARK: - Inputs
-    let searchButtonClicked = PublishRelay<Void>()
-    let searchBarText = PublishRelay<String>()
-    
+    struct Input {
+        let searchButtonClicked = PublishRelay<Void>()
+        let searchBarText = PublishRelay<String>()
+    }
+
     // MARK: - Outputs
-    let weatherResponse: Driver<[ListItem]>
-    let isLoading: Driver<Bool>
-    let showErrorAlert: Driver<String>
+    struct Output {
+        let weather: Driver<[ListItem]>
+        let isLoading: Driver<Bool>
+        let showErrorAlert: Driver<String>
+    }
     
+    // MARK: - Properties
+    let input: Input = Input()
+    let output: Output
     private let disposeBag = DisposeBag()
     
     init(weatherService: WeatherService = WeatherService()) {
         // サーチボタンのタップでイベント発行される
-        let searchEvent = self.searchButtonClicked
-            .withLatestFrom(searchBarText)
+        let searchEvent = input.searchButtonClicked
+            .withLatestFrom(input.searchBarText)
             .filter { !$0.isEmpty }
             .distinctUntilChanged()
         
@@ -36,12 +43,12 @@ class WeatherViewModel {
                 return Observable.zip(current, forecast).materialize()
             }
             .share(replay: 1)     // HotObservableに変換
-
+        
         // 天気
         let weatherSequence = apiResult
             .compactMap { $0.element }
             .asDriver(onErrorDriveWith: .empty())
-
+        
         // エラー
         let errorSequence = apiResult
             .compactMap { $0.error }
@@ -52,23 +59,27 @@ class WeatherViewModel {
                 return error.localizedDescription
             }
             .asDriver(onErrorDriveWith: .empty())
-
+        
         // TableViewItems
-        self.weatherResponse = weatherSequence
+        let weatherOutput = weatherSequence
             .map { current, forecast in
                 return [.current(current)] + forecast.list.map { ListItem.forecast($0)}
             }
-
+        
         // ローディングアニメーション
-        self.isLoading = Observable
+        let isLoadingOutput = Observable
             .merge(searchEvent.map { _ in true },
                    apiResult.map { _ in false })
             .asDriver(onErrorDriveWith: .empty())
         
         // エラーアラート表示
-        self.showErrorAlert = errorSequence
+        let showErrorAlertOutput = errorSequence
+        
+        self.output = Output(weather: weatherOutput,
+                             isLoading: isLoadingOutput,
+                             showErrorAlert: showErrorAlertOutput)
     }
-    
+
     // TableViewItem (２種類のCellデータ)
     enum ListItem {
         case current(CurrentWeatherResponse)

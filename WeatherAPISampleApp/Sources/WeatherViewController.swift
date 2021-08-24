@@ -19,7 +19,6 @@ class WeatherViewController: UIViewController {
             indicator.hidesWhenStopped = true
         }
     }
-
     private let viewModel = WeatherViewModel()
     private let disposeBag = DisposeBag()
 
@@ -46,14 +45,14 @@ class WeatherViewController: UIViewController {
     // ViewModelとデータバインド
     private func bind() {
         searchBar.rx.text.orEmpty.asObservable()
-            .bind(to: viewModel.searchBarText)
+            .bind(to: viewModel.input.searchBarText)
             .disposed(by: disposeBag)
 
         searchBar.rx.searchButtonClicked.asObservable()
-            .bind(to: viewModel.searchButtonClicked)
+            .bind(to: viewModel.input.searchButtonClicked)
             .disposed(by: disposeBag)
         
-        viewModel.weatherResponse
+        viewModel.output.weather
             .drive(tableView.rx.items) { tableView, row, element in
                 switch element {
                 case .current(let current):
@@ -68,7 +67,7 @@ class WeatherViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.isLoading
+        viewModel.output.isLoading
             .drive(onNext: { [weak self] isLoading in
                 if isLoading {
                     UIView.animate(withDuration: 0.3) {
@@ -84,7 +83,7 @@ class WeatherViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.showErrorAlert
+        viewModel.output.showErrorAlert
             .drive(onNext: { [weak self] message in
                 self?.showAlertController(message)
             })
