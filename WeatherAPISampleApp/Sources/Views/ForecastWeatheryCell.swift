@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ForecastWeatherCell: UITableViewCell {
+final class ForecastWeatherCell: UITableViewCell {
     
     // MARK: - Properties
     @IBOutlet weak var dateLabel: UILabel!

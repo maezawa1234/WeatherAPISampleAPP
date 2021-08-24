@@ -7,9 +7,8 @@
 
 import RxSwift
 import RxCocoa
-import RxDataSources
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
@@ -21,20 +20,21 @@ class WeatherViewController: UIViewController {
     }
     private let viewModel = WeatherViewModel()
     private let disposeBag = DisposeBag()
-
+    
     // インスタンス化
     static func configure() -> Self {
         let viewController = UIStoryboard(name: Self.className, bundle: nil)
             .instantiateViewController(identifier: Self.className) as! Self
         return viewController
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        printLastAppLaunchedDate()
         setupView()
         bind()
     }
-  
+    
     private func setupView() {
         self.navigationItem.title = "Weather Sample App"
         tableView.register(UINib(nibName: WeatherSummaryCell.className, bundle: nil), forCellReuseIdentifier: WeatherSummaryCell.className)
@@ -47,7 +47,7 @@ class WeatherViewController: UIViewController {
         searchBar.rx.text.orEmpty.asObservable()
             .bind(to: viewModel.input.searchBarText)
             .disposed(by: disposeBag)
-
+        
         searchBar.rx.searchButtonClicked.asObservable()
             .bind(to: viewModel.input.searchButtonClicked)
             .disposed(by: disposeBag)
@@ -85,14 +85,19 @@ class WeatherViewController: UIViewController {
         
         viewModel.output.showErrorAlert
             .drive(onNext: { [weak self] message in
-                self?.showAlertController(message)
+                let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alertController, animated: true)
             })
             .disposed(by: disposeBag)
     }
 
-    private func showAlertController(_ message: String) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        self.present(alertController, animated: true)
+    private func printLastAppLaunchedDate() {
+        if let appLastOpenedDate = DataStoreService.shared.appLastOpenedDate  {
+            print("前回のアプリ起動日は\(appLastOpenedDate.toString(format: "MM-dd HH:mm:ss"))です!")
+        } else {
+            print("初めてAppを起動しました!")
+        }
+        DataStoreService.shared.appLastOpenedDate = Date()
     }
 }

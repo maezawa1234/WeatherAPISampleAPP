@@ -18,9 +18,7 @@ struct WeatherAPI {
         let lang: String = "ja"
 
         let method: HTTPMethod = .get
-        
         let path: String = "/weather"
-        
         var parameters: Any? {
             guard !WeatherAPI.appID.isEmpty else {
                 fatalError("OpenWeatherAPIリクエストのためのappIDが設定されていません.\nWeatherAPI.appID")
@@ -42,9 +40,7 @@ struct WeatherAPI {
         let lang: String = "ja"
 
         var method: HTTPMethod = .get
-
         var path: String = "/forecast"
-
         var parameters: Any? {
             return [
                 "q": query,

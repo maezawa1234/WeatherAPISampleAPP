@@ -17,40 +17,28 @@ extension WeatherRequestType {
 }
 
 extension WeatherRequestType where Response: Decodable {
-    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
-        let json = JSON(object)
-        print("🚀🚀 Debug: json")
-        print(json)
-        let decoder = JSONDecoder()
-        do {
-            let data = try json.rawData()
-            return try decoder.decode(Response.self, from: data)
-        } catch {
-            throw error
-        }
-//        guard let data = object as? Data else {
-//            throw ResponseError.unexpectedObject(object)
-//        }
-//        let decoder = JSONDecoder()
-//        return try decoder.decode(Response.self, from: data)
+    var dataParser: DataParser {
+        return DecodableDataParser()
     }
-    
+
+    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
+        guard let data = object as? Data else {
+            throw ResponseError.unexpectedObject(object)
+        }
+        let decoder = JSONDecoder()
+        return try decoder.decode(Response.self, from: data)
+    }
+
     func intercept(object: Any, urlResponse: HTTPURLResponse) throws -> Any {
         let statusCode = urlResponse.statusCode
-        if case (400 ..< 500) = statusCode {
+        guard case (200 ..< 300) = statusCode else {
             let json = JSON(object)
-            let decoder = JSONDecoder()
-            do {
-                let data = try json.rawData()
-                // JSONからエラーをインスタンス化
-                throw try decoder.decode(WeatherAPIError.self, from: data)
-            } catch {
-                throw error
+            guard let message = json["message"].string else {
+                throw ResponseError.unexpectedObject(object)
             }
+            throw APIError(message: message, responseObject: object)
         }
         return object
     }
-//    var dataParser: DataParser {
-//        return DecodableDataParser()
-//    }
 }
+

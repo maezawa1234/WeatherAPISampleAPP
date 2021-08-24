@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherSummaryCell: UITableViewCell {
+final class WeatherSummaryCell: UITableViewCell {
     
     // MARK: - Properties
     @IBOutlet private weak var nameLabel: UILabel!

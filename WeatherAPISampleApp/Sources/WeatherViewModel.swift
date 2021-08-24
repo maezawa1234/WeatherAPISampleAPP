@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class WeatherViewModel {
+final class WeatherViewModel {
     
     // MARK: - Inputs
     struct Input {
@@ -23,9 +23,9 @@ class WeatherViewModel {
         let showErrorAlert: Driver<String>
     }
     
-    // MARK: - Properties
     let input: Input = Input()
     let output: Output
+
     private let disposeBag = DisposeBag()
     
     init(weatherService: WeatherService = WeatherService()) {
@@ -33,7 +33,7 @@ class WeatherViewModel {
         let searchEvent = input.searchButtonClicked
             .withLatestFrom(input.searchBarText)
             .filter { !$0.isEmpty }
-            .distinctUntilChanged()
+            .distinctUntilChanged()     // 同じ値が連続したら無視
         
         // API結果
         let apiResult = searchEvent
@@ -52,16 +52,12 @@ class WeatherViewModel {
         // エラー
         let errorSequence = apiResult
             .compactMap { $0.error }
-            .map { error -> String in
-                if let apiError = error as? WeatherAPIError {
-                    return apiError.message
-                }
-                return error.localizedDescription
-            }
+            .map { APIError(error: $0).message }
             .asDriver(onErrorDriveWith: .empty())
-        
+
         // TableViewItems
         let weatherOutput = weatherSequence
+            // TableViewItemの配列に変換
             .map { current, forecast in
                 return [.current(current)] + forecast.list.map { ListItem.forecast($0)}
             }
