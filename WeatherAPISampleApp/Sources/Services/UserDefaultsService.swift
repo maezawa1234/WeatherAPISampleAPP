@@ -7,13 +7,14 @@
 
 import Foundation
 
-protocol DatastoreServiceProtocol: AnyObject {
+protocol DataStoreServiceProtocol: AnyObject {
     var lastUserName: String? { get set }
     var appLastOpenedDate: Date? { get set }
+    var searchWordHistories: [String] { get set }
 }
 
-final class DataStoreService: DatastoreServiceProtocol {
-    static let shared = DataStoreService()
+final class DataStoreService: DataStoreServiceProtocol {
+    static let shared: DataStoreServiceProtocol = DataStoreService()
     private init() {}
     
     private let dataStore = UserDefaults.standard
@@ -21,6 +22,7 @@ final class DataStoreService: DatastoreServiceProtocol {
     private enum Key: String {
         case lastUserName = "last_user_name"
         case appLastOpenedDate = "app_last_opened_date"
+        case searchWordHistories = "search_word_histories"
     }
     
     var lastUserName: String? {
@@ -30,6 +32,10 @@ final class DataStoreService: DatastoreServiceProtocol {
     var appLastOpenedDate: Date? {
         get { return object(forKey: .appLastOpenedDate) }
         set { set(newValue, forKey: .appLastOpenedDate) }
+    }
+    var searchWordHistories: [String] {
+        get { return object(forKey: .searchWordHistories) ?? [] }
+        set { return set(newValue, forKey: .searchWordHistories) }
     }
 }
 

@@ -30,7 +30,6 @@ final class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        printLastAppLaunchedDate()
         setupView()
         bind()
     }
@@ -90,14 +89,5 @@ final class WeatherViewController: UIViewController {
                 self?.present(alertController, animated: true)
             })
             .disposed(by: disposeBag)
-    }
-
-    private func printLastAppLaunchedDate() {
-        if let appLastOpenedDate = DataStoreService.shared.appLastOpenedDate  {
-            print("前回のアプリ起動日は\(appLastOpenedDate.toString(format: "MM-dd HH:mm:ss"))です!")
-        } else {
-            print("初めてAppを起動しました!")
-        }
-        DataStoreService.shared.appLastOpenedDate = Date()
     }
 }
