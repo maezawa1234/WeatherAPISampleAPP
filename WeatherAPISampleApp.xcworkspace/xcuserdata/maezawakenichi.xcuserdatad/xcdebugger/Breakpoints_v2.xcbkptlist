@@ -30,8 +30,8 @@
             filePath = "WeatherAPISampleApp/Sources/API/WeatherRequestType.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "intercept(object:urlResponse:)"
             landmarkType = "7">
          </BreakpointContent>
