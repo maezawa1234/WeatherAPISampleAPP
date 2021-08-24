@@ -17,7 +17,6 @@ class WeatherViewController: UIViewController {
     @IBOutlet private weak var indicator: UIActivityIndicatorView! {
         didSet {
             indicator.hidesWhenStopped = true
-            indicator.stopAnimating()
         }
     }
 
@@ -40,12 +39,13 @@ class WeatherViewController: UIViewController {
     private func setupView() {
         self.navigationItem.title = "Weather Sample App"
         tableView.register(UINib(nibName: WeatherSummaryCell.className, bundle: nil), forCellReuseIdentifier: WeatherSummaryCell.className)
-        tableView.register(UINib(nibName: WeatherWeeklyCell.className, bundle: nil), forCellReuseIdentifier: WeatherWeeklyCell.className)
+        tableView.register(UINib(nibName: ForecastWeatherCell.className, bundle: nil), forCellReuseIdentifier: ForecastWeatherCell.className)
+        tableView.tableFooterView = UIView(frame: .zero)
     }
     
     // ViewModelとデータバインド
     private func bind() {
-        searchBar.rx.text.asObservable()
+        searchBar.rx.text.orEmpty.asObservable()
             .bind(to: viewModel.searchBarText)
             .disposed(by: disposeBag)
 
@@ -61,14 +61,14 @@ class WeatherViewController: UIViewController {
                     cell.configure(with: current)
                     return cell
                 case .forecast(let forecast):
-                    let cell = tableView.dequeueReusableCell(withIdentifier: WeatherWeeklyCell.className, for: [0, row]) as! WeatherWeeklyCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ForecastWeatherCell.className, for: [0, row]) as! ForecastWeatherCell
                     cell.configure(with: forecast)
                     return cell
                 }
             }
             .disposed(by: disposeBag)
         
-        viewModel.loadingIndicator
+        viewModel.isLoading
             .drive(onNext: { [weak self] isLoading in
                 if isLoading {
                     UIView.animate(withDuration: 0.3) {

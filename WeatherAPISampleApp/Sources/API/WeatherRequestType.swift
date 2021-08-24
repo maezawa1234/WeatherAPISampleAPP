@@ -18,21 +18,21 @@ extension WeatherRequestType {
 
 extension WeatherRequestType where Response: Decodable {
     func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
-//        let json = JSON(object)
-//        print("🚀🚀 Debug: json")
-//        print(json)
-//        let decoder = JSONDecoder()
-//        do {
-//            let data = try json.rawData()
-//            return try decoder.decode(Response.self, from: data)
-//        } catch {
-//            throw error
-//        }
-        guard let data = object as? Data else {
-            throw ResponseError.unexpectedObject(object)
-        }
+        let json = JSON(object)
+        print("🚀🚀 Debug: json")
+        print(json)
         let decoder = JSONDecoder()
-        return try decoder.decode(Response.self, from: data)
+        do {
+            let data = try json.rawData()
+            return try decoder.decode(Response.self, from: data)
+        } catch {
+            throw error
+        }
+//        guard let data = object as? Data else {
+//            throw ResponseError.unexpectedObject(object)
+//        }
+//        let decoder = JSONDecoder()
+//        return try decoder.decode(Response.self, from: data)
     }
     
     func intercept(object: Any, urlResponse: HTTPURLResponse) throws -> Any {
