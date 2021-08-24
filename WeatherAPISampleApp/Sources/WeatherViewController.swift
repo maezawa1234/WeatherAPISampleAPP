@@ -18,6 +18,7 @@ final class WeatherViewController: UIViewController {
             indicator.hidesWhenStopped = true
         }
     }
+    private let closeButton = UIBarButtonItem(systemItem: .close)
     private let viewModel = WeatherViewModel()
     private let disposeBag = DisposeBag()
     
@@ -36,6 +37,9 @@ final class WeatherViewController: UIViewController {
     
     private func setupView() {
         self.navigationItem.title = "Weather Sample App"
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
+        toolbar.setItems([closeButton], animated: true)
+        searchBar.searchTextField.inputAccessoryView = toolbar
         tableView.register(UINib(nibName: WeatherSummaryCell.className, bundle: nil), forCellReuseIdentifier: WeatherSummaryCell.className)
         tableView.register(UINib(nibName: ForecastWeatherCell.className, bundle: nil), forCellReuseIdentifier: ForecastWeatherCell.className)
         tableView.tableFooterView = UIView(frame: .zero)
@@ -87,6 +91,12 @@ final class WeatherViewController: UIViewController {
                 let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default))
                 self?.present(alertController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        closeButton.rx.tap.asObservable()
+            .subscribe(onNext: { [weak self] in
+                self?.searchBar.searchTextField.endEditing(true)
             })
             .disposed(by: disposeBag)
     }
