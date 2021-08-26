@@ -9,7 +9,6 @@ import Foundation
 
 protocol DataStoreServiceProtocol: AnyObject {
     var userName: String? { get set }
-   
 }
 
 final class DataStoreService: DataStoreServiceProtocol {
@@ -22,7 +21,7 @@ final class DataStoreService: DataStoreServiceProtocol {
         case userName = "user_name"
     }
     
-    var lastUserName: String? {
+    var userName: String? {
         get { return object(forKey: .userName) }
         set { set(newValue, forKey: .userName) }
     }
