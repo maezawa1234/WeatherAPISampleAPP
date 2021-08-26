@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 final class WeatherViewController: UIViewController {
-    
+
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!

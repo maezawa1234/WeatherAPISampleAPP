@@ -8,9 +8,8 @@
 import Foundation
 
 protocol DataStoreServiceProtocol: AnyObject {
-    var lastUserName: String? { get set }
-    var appLastOpenedDate: Date? { get set }
-    var searchWordHistories: [String] { get set }
+    var userName: String? { get set }
+   
 }
 
 final class DataStoreService: DataStoreServiceProtocol {
@@ -20,22 +19,12 @@ final class DataStoreService: DataStoreServiceProtocol {
     private let dataStore = UserDefaults.standard
 
     private enum Key: String {
-        case lastUserName = "last_user_name"
-        case appLastOpenedDate = "app_last_opened_date"
-        case searchWordHistories = "search_word_histories"
+        case userName = "user_name"
     }
     
     var lastUserName: String? {
-        get { return object(forKey: .lastUserName) }
-        set { set(newValue, forKey: .lastUserName) }
-    }
-    var appLastOpenedDate: Date? {
-        get { return object(forKey: .appLastOpenedDate) }
-        set { set(newValue, forKey: .appLastOpenedDate) }
-    }
-    var searchWordHistories: [String] {
-        get { return object(forKey: .searchWordHistories) ?? [] }
-        set { return set(newValue, forKey: .searchWordHistories) }
+        get { return object(forKey: .userName) }
+        set { set(newValue, forKey: .userName) }
     }
 }
 
