@@ -36,3 +36,4 @@ private extension DataStoreService {
         dataStore.synchronize()
     }
 }
+
