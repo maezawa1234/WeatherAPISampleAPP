@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,12 +17,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Input location name (London, Tokyo etc...)" translatesAutoresizingMaskIntoConstraints="NO" id="XdB-LQ-orb">
-                                <rect key="frame" x="0.0" y="44" width="414" height="51"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ArT-id-0Z9">
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="XdB-LQ-orb">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAZ-dl-fXO">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="yAZ-dl-fXO" secondAttribute="bottom" id="0Vx-ZM-nWy"/>
+                                    <constraint firstAttribute="height" constant="50" id="Ceo-M4-bPH"/>
+                                    <constraint firstItem="yAZ-dl-fXO" firstAttribute="top" secondItem="ArT-id-0Z9" secondAttribute="top" id="H7Q-Q3-8d4"/>
+                                    <constraint firstItem="XdB-LQ-orb" firstAttribute="top" secondItem="ArT-id-0Z9" secondAttribute="top" id="Rpa-LM-x6J"/>
+                                    <constraint firstAttribute="bottom" secondItem="XdB-LQ-orb" secondAttribute="bottom" id="UNu-P2-NkS"/>
+                                    <constraint firstItem="XdB-LQ-orb" firstAttribute="leading" secondItem="ArT-id-0Z9" secondAttribute="leading" id="XBE-Qq-hoW"/>
+                                    <constraint firstItem="yAZ-dl-fXO" firstAttribute="leading" secondItem="ArT-id-0Z9" secondAttribute="leading" id="cCw-2c-y0v"/>
+                                    <constraint firstAttribute="trailing" secondItem="yAZ-dl-fXO" secondAttribute="trailing" id="f6j-oM-iHC"/>
+                                    <constraint firstAttribute="trailing" secondItem="XdB-LQ-orb" secondAttribute="trailing" id="x1C-rN-yen"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9tJ-Va-kxc">
-                                <rect key="frame" x="0.0" y="95" width="414" height="767"/>
+                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="ZTW-4F-wep">
@@ -31,14 +53,14 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="XdB-LQ-orb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="4w6-sk-nsB"/>
+                            <constraint firstItem="ArT-id-0Z9" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="0Mo-Vb-LPi"/>
                             <constraint firstItem="ZTW-4F-wep" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" constant="-140" id="Ffa-AB-fl0"/>
-                            <constraint firstItem="XdB-LQ-orb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Grg-Ka-rpf"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9tJ-Va-kxc" secondAttribute="trailing" id="Ifx-fq-lIE"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9tJ-Va-kxc" secondAttribute="bottom" id="NPJ-e0-f54"/>
-                            <constraint firstItem="XdB-LQ-orb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="azQ-05-t8z"/>
+                            <constraint firstItem="9tJ-Va-kxc" firstAttribute="top" secondItem="ArT-id-0Z9" secondAttribute="bottom" id="alF-6s-qWU"/>
                             <constraint firstItem="ZTW-4F-wep" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="bzy-AO-Sye"/>
-                            <constraint firstItem="9tJ-Va-kxc" firstAttribute="top" secondItem="XdB-LQ-orb" secondAttribute="bottom" id="hED-V6-oJF"/>
+                            <constraint firstItem="ArT-id-0Z9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="iwi-oL-bhL"/>
+                            <constraint firstItem="ArT-id-0Z9" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="lDV-Hk-PDW"/>
                             <constraint firstItem="9tJ-Va-kxc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="orB-Bm-57z"/>
                         </constraints>
                     </view>
@@ -46,6 +68,7 @@
                         <outlet property="indicator" destination="ZTW-4F-wep" id="Ios-0X-SgJ"/>
                         <outlet property="searchBar" destination="XdB-LQ-orb" id="PEK-uV-83D"/>
                         <outlet property="tableView" destination="9tJ-Va-kxc" id="Z8w-PY-LLk"/>
+                        <outlet property="toSearchHistoryButton" destination="yAZ-dl-fXO" id="Ahd-Tt-sMJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

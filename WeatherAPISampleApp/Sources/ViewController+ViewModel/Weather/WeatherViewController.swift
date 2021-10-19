@@ -12,6 +12,7 @@ final class WeatherViewController: UIViewController {
 
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var toSearchHistoryButton: UIButton!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var indicator: UIActivityIndicatorView! {
         didSet {
@@ -33,6 +34,23 @@ final class WeatherViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         bind()
+        
+//        let loadedDictionary = DataStoreService.shared.dictionary
+//        print(loadedDictionary)
+//        let messageDict: [String: Message] = ["001": Message(timestamp: Date(), text: "Hello-"), "002": Message(timestamp: Date(), text: "Yo!")]
+////        let message = Message(timestamp: Date(), text: "Hi")
+//        DataStoreService.shared.dictionary = messageDict
+//        print(DataStoreService.shared.dictionary)
+//        var dict: [String: [Message]] = [:]
+//        for roomID in 0...6 {
+//            var messages: [Message] = []
+//            for i in 0...10 {
+//                messages.append(Message(timestamp: Date(), text: "Hi!\(i)\(i)"))
+//            }
+//            dict["\(roomID)"] = messages
+//        }
+//        DataStoreService.shared.MessagesByRoomIdDictionary = dict
+        print(DataStoreService.shared.MessagesByRoomIdDictionary)
     }
     
     private func setupView() {
@@ -43,6 +61,7 @@ final class WeatherViewController: UIViewController {
         tableView.register(UINib(nibName: WeatherSummaryCell.className, bundle: nil), forCellReuseIdentifier: WeatherSummaryCell.className)
         tableView.register(UINib(nibName: ForecastWeatherCell.className, bundle: nil), forCellReuseIdentifier: ForecastWeatherCell.className)
         tableView.tableFooterView = UIView(frame: .zero)
+        navigationItem.backButtonTitle = ""
     }
     
     // ViewModelとデータバインド
@@ -53,6 +72,14 @@ final class WeatherViewController: UIViewController {
         
         searchBar.rx.searchButtonClicked.asObservable()
             .bind(to: viewModel.input.searchButtonClicked)
+            .disposed(by: disposeBag)
+
+        toSearchHistoryButton.rx.tap.asSignal()
+            .emit(onNext: { [weak self] in
+                let searchHistoryVC = SearchHistoryViewController.configure(with: SearchHistoryViewModel(currentSearchBarText: self?.searchBar.text ?? ""))
+                searchHistoryVC.delegate = self
+                self?.navigationController?.pushViewController(searchHistoryVC, animated: false)
+            })
             .disposed(by: disposeBag)
         
         viewModel.output.weather
@@ -99,5 +126,14 @@ final class WeatherViewController: UIViewController {
                 self?.searchBar.searchTextField.endEditing(true)
             })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - SearchHistoryViewControllerDelegate
+extension WeatherViewController: SearchHistoryViewControllerDelegate {
+    func searchHistoryViewControllerDidSelect(_ searchWord: String) {
+        searchBar.text = searchWord
+        viewModel.input.searchBarText.accept(searchWord)
+        viewModel.input.searchButtonClicked.accept(())
     }
 }
