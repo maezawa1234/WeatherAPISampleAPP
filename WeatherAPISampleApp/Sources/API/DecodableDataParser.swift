@@ -9,7 +9,7 @@ import Foundation
 import APIKit
 
 final class DecodableDataParser: DataParser {
-    
+
     // bodyのデータの変換する際のタイプを指定している. (ここではJSON)
     var contentType: String? {
         return "application/json"

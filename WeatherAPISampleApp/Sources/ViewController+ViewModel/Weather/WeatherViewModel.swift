@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 final class WeatherViewModel {
-    
+
     // MARK: - Inputs
     struct Input {
         let searchButtonClicked = PublishRelay<Void>()
