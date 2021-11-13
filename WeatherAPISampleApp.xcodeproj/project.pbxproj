@@ -171,9 +171,9 @@
 				08A390A5271EAC2D00CD477C /* Application */,
 				0820E16726D29F88002C69AC /* Entity */,
 				0820E16226D29D9B002C69AC /* API */,
+				08E4FE532740107900271D0C /* Utils */,
 				0820E17226D2B386002C69AC /* Services */,
 				0820E17326D2B3AF002C69AC /* Extensions+Protocols */,
-				0820E18B26D3797A002C69AC /* Designable */,
 				08A390A2271EAB8100CD477C /* ViewController+ViewModel */,
 			);
 			path = Sources;
@@ -205,12 +205,12 @@
 				0820E17B26D2C153002C69AC /* WeatherViewController.swift */,
 				0820E17D26D2C1B9002C69AC /* WeatherViewController.storyboard */,
 				0820E18126D2C8D6002C69AC /* WeatherViewModel.swift */,
-				08A390A4271EABD400CD477C /* SubView */,
+				08A390A4271EABD400CD477C /* SubViews */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
 		};
-		08A390A4271EABD400CD477C /* SubView */ = {
+		08A390A4271EABD400CD477C /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
 				0820E18326D2CA76002C69AC /* WeatherSummaryCell.xib */,
@@ -218,7 +218,7 @@
 				0820E18526D2CA9C002C69AC /* ForecastWeatherCell.xib */,
 				0820E18926D2D1C4002C69AC /* ForecastWeatheryCell.swift */,
 			);
-			path = SubView;
+			path = SubViews;
 			sourceTree = "<group>";
 		};
 		08A390A5271EAC2D00CD477C /* Application */ = {
@@ -249,6 +249,14 @@
 				08A390B2271EB4A800CD477C /* SearchHistoryTableViewCell.xib */,
 			);
 			path = SubView;
+			sourceTree = "<group>";
+		};
+		08E4FE532740107900271D0C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0820E18B26D3797A002C69AC /* Designable */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		15E4EDF236C495EC5CD90420 /* Pods */ = {

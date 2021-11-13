@@ -34,23 +34,6 @@ final class WeatherViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         bind()
-        
-//        let loadedDictionary = DataStoreService.shared.dictionary
-//        print(loadedDictionary)
-//        let messageDict: [String: Message] = ["001": Message(timestamp: Date(), text: "Hello-"), "002": Message(timestamp: Date(), text: "Yo!")]
-////        let message = Message(timestamp: Date(), text: "Hi")
-//        DataStoreService.shared.dictionary = messageDict
-//        print(DataStoreService.shared.dictionary)
-//        var dict: [String: [Message]] = [:]
-//        for roomID in 0...6 {
-//            var messages: [Message] = []
-//            for i in 0...10 {
-//                messages.append(Message(timestamp: Date(), text: "Hi!\(i)\(i)"))
-//            }
-//            dict["\(roomID)"] = messages
-//        }
-//        DataStoreService.shared.MessagesByRoomIdDictionary = dict
-        print(DataStoreService.shared.MessagesByRoomIdDictionary)
     }
     
     private func setupView() {
