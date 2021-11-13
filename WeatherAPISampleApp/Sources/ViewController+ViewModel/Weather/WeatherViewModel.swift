@@ -28,7 +28,7 @@ final class WeatherViewModel {
 
     private let disposeBag = DisposeBag()
     
-    init(weatherService: WeatherService = WeatherService()) {
+    init(weatherService: WeatherRepositoryProtocol = WeatherRepository()) {
         // サーチボタンのタップでイベント発行される
         let searchEvent = input.searchButtonClicked
             .withLatestFrom(input.searchBarText)

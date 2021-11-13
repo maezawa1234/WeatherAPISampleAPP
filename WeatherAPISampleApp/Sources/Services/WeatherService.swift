@@ -8,7 +8,12 @@
 import RxSwift
 import APIKit
 
-class WeatherService {
+protocol WeatherRepositoryProtocol {
+    func getCurrentWeather(query: String) -> Observable<CurrentWeatherResponse>
+    func getForecastFeather(query: String) -> Observable<ForecastWeatherResponse>
+}
+
+class WeatherRepository: WeatherRepositoryProtocol {
     func getCurrentWeather(query: String) -> Observable<CurrentWeatherResponse> {
         let request = WeatherAPI.CurrentWeatherRequest(query: query)
         return Session.shared.rx.send(request: request)
